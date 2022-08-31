@@ -1,4 +1,5 @@
 import {useState, useEffect} from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types'
 
 import Spinner from '../spinner/Spinner';
@@ -12,7 +13,7 @@ const CharInfo = (props) => {
 
     const [char, setChar] = useState(null);
 
-    const {loading, error, getCharacter} = useMarvelService();
+    const {loading, error, getCharacter, getComic} = useMarvelService();
 
     useEffect(() => {
         updateChar();
@@ -29,7 +30,6 @@ const CharInfo = (props) => {
         getCharacter(charId)
             .then(setChar)
     }
-
     const skeleton = char || loading || error ? null : <Skeleton/>;
     const errorMessage = error ? <ErrorMessage/> : null;
     const spinner = loading ? <Spinner/> : null;
@@ -56,9 +56,11 @@ const View = ({char}) => {
                     </li>
         } else {
             comicsList = comics.slice(0,10).map((item, i) => {
+                const comicUrl = item.resourceURI.split('/')
                 return (
                     <li key={i} className="char__comics-item">
-                        {item.name}
+                        {/* Получаем id из ссылки на комикс и добавляем в Link */}
+                        <Link to={`/comics/${comicUrl[comicUrl.length-1]}`}>{item.name}</Link>
                     </li>
                 )
             })

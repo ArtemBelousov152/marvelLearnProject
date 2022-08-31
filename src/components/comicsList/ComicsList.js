@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+
 import useMarvelService from '../../services/MarvelService';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 
 import './comicsList.scss';
-import uw from '../../resources/img/UW.png';
-import xMen from '../../resources/img/x-men.png';
 
 const ComicsList = () => {
     const [comicsList, setComicsList] = useState([]);
@@ -31,18 +31,18 @@ const ComicsList = () => {
     }
 
     const renderItems = (comicsArr) => {
-        const elements = comicsArr.map((item, i) => {
-            const {thumbnail, price, title} = item
+        const elements = comicsArr.map((item) => {
+            const {thumbnail, price, title, id} = item
             return (
             <li 
                 className="comics__item"
                 tabIndex={0}
-                key={i}>
-                <a href="#">
+                key={id}>
+                <Link to={`/comics/${id}`}>
                     <img src={thumbnail} alt="ultimate war" className="comics__item-img"/>
                     <div className="comics__item-name">{title}</div>
                     <div className="comics__item-price">{price}</div>
-                </a>
+                </Link>
             </li>
             )
         })
