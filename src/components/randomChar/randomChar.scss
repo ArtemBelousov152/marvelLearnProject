@@ -5,11 +5,46 @@
     grid-template-columns: repeat(2, 50%);
     align-items: center;
     box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.25);
+    &-enter {
+        opacity: 0;
+        transform: scale(0.6);
+    }
+    &-enter-active {
+        opacity: 1;
+        transform: scale(1);
+        transition: all 1000ms;
+    }
+    &-exit {
+        opacity: scale(1);
+    }
+    &-exit-active {
+        opacity: 0;
+        transform: scale(0);
+        transition: all 1000ms;
+    }
     &__block {
         padding: 40px 35px;
         display: grid;
         grid-template-columns: 180px auto;
         column-gap: 30px;
+        &-enter {
+			opacity: 0;
+			transform: scale(0.6);
+		}
+		&-enter-active {
+			opacity: 1;
+			transform: scale(1);
+			transition: all 500ms;
+		}
+		&-exit {
+			opacity: 1;
+            transform: scale(1);
+		}
+		&-exit-active {
+			opacity: 0;
+			transform: scale(0.6);
+			transition: all 500ms;
+		}
     }
     &__img {
         width: 180px;
