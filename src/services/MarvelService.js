@@ -2,12 +2,13 @@ import {useHttp} from '../hooks/http.hook'
 
 
 const useMarvelService = () => {
-    const {loading, request, error} = useHttp();
+    const {loading, request, error, setError} = useHttp();
 
     const _apiBase = 'https://gateway.marvel.com:443/v1/public/';
     const _apikey = 'apikey=07b9202af18d8ae36452b1644bcb1354';
     const _baseOffsetChar = 210;
     const _baseOffsetComics = 5100;
+    const _baseLimit = 1;
 
     const getAllCharacters = async (offset = _baseOffsetChar) => {
         const res = await request(`${_apiBase}characters?limit=9&offset=${offset}&${_apikey}`);
@@ -29,24 +30,35 @@ const useMarvelService = () => {
     return _transformComics(res.data.results[0]);
     }
 
-    const _transformCharacter = (char) => {
-        let result = {
-            name: char.name,
-            description: char.description || 'Description not found.',
-            thumbnail: `${char.thumbnail.path}.${char.thumbnail.extension}`,
-            homepage: char.urls[0].url,
-            wiki: char.urls[1].url,
-            id: char.id,
-            style: {"objectFit": "cover"},
-            comics: char.comics.items
-        }
-
-        if (result.thumbnail === "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg") {
-        result.style = {"objectFit": "fill"}
+    const findChar = async (name) => {
+        const modName = name.replace(/ /g, "%20")
+        const res = await request(`${_apiBase}characters?nameStartsWith=${modName}&limit=${_baseLimit}&${_apikey}`);
+        return _transformCharacter(res.data.results[0])
     }
-        return {
-            ...result
+
+    const _transformCharacter = (char) => {
+        try {
+            let result = {
+                name: char.name,
+                description: char.description || 'Description not found.',
+                thumbnail: `${char.thumbnail.path}.${char.thumbnail.extension}`,
+                homepage: char.urls[0].url,
+                wiki: char.urls[1].url,
+                id: char.id,
+                style: {"objectFit": "cover"},
+                comics: char.comics.items
+            }
+    
+            if (result.thumbnail === "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg") {
+            result.style = {"objectFit": "fill"}
         }
+            return {
+                ...result
+            }
+        } catch (e) {
+            setError(e);
+        }
+        return {};
     }
 
     const _transformComics = (comics) => {
@@ -65,7 +77,7 @@ const useMarvelService = () => {
         }
     }
 
-    return {error, loading, getAllCharacters, getCharacter, getAllComics, getComic}
+    return {error, loading, getAllCharacters, getCharacter, getAllComics, getComic, findChar}
 }
 
 export default useMarvelService;

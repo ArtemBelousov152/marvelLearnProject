@@ -13,17 +13,40 @@ const CharList = (props) => {
     const [newItemLoading, setNewItemLoading] = useState(false);
     const [offset, setOffset] = useState(210);
     const [charEnded, setCharEnded] = useState(false);
+    const [fetching, setFetching] = useState(true);
 
     const {loading, error, getAllCharacters} = useMarvelService();
 
     useEffect(() => {
-        onRequest(offset, true)
+        document.addEventListener("scroll", scrollHandler);
+        
+        return function() {
+            document.removeEventListener("scroll", scrollHandler);
+        }
     }, [])
+
+    useEffect(() => {
+        if(fetching) {
+            console.log("fetching")
+            onRequest(offset, newItemLoading);
+        }
+    },[fetching])
+
+    const scrollHandler = (e) => {
+        if (e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight) < 500) {
+            setFetching(true);
+        }
+        console.log(fetching)
+        console.log("scrollHeight", e.target.documentElement.scrollHeight);
+        console.log("scrollTop", e.target.documentElement.scrollTop);
+        console.log("innerHeight", window.innerHeight);
+    }
 
     const onRequest = (offset, initial) => {
         initial ? setNewItemLoading(false) : setNewItemLoading(true);
         getAllCharacters(offset)
             .then(onCharListLoaded)
+        
     }
 
     const onCharListLoaded = (newCharList) => {
@@ -36,6 +59,7 @@ const CharList = (props) => {
         setNewItemLoading(false);
         setOffset(offset => offset + 9);
         setCharEnded(ended);
+        setFetching(false);
     }
 
     const itemRefs = useRef([]);

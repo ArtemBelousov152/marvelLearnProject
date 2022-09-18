@@ -35,7 +35,6 @@ const RandomChar = () => {
 
     const errorMessage = error ? <ErrorMessage/> : null;
     const spinner = loading ? <Spinner/> : <View char={char} charLoaded={charLoaded}/>;
-    console.log(charLoaded)
 
     return (
         <CSSTransition in={pageLoaded} timeout={1000} classNames="randomchar">

@@ -28,5 +28,5 @@ export const useHttp = () => {
 
     }, []);
 
-    return {loading, request, error}
+    return {loading, request, error, setError}
 }
