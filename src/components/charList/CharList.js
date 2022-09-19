@@ -1,65 +1,43 @@
 import {useState, useEffect, useRef} from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import PropTypes from 'prop-types'
+import InfiniteScroll from 'react-infinite-scroll-component';
+
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import useMarvelService from '../../services/MarvelService';
-import PropTypes from 'prop-types'
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import './charList.scss';
 
 const CharList = (props) => {
 
     const [charList, setCharList] = useState([]);
-    const [newItemLoading, setNewItemLoading] = useState(false);
-    const [offset, setOffset] = useState(210);
-    const [charEnded, setCharEnded] = useState(false);
-    const [fetching, setFetching] = useState(true);
+    const [offset, setOffset] = useState(230);
+    const [charEnded, setCharEnded] = useState(true);
 
-    const {loading, error, getAllCharacters} = useMarvelService();
+    const { error, getAllCharacters} = useMarvelService();
 
     useEffect(() => {
-        document.addEventListener("scroll", scrollHandler);
-        
-        return function() {
-            document.removeEventListener("scroll", scrollHandler);
-        }
-    }, [])
+        onRequest(offset, true);
+    },[])
 
-    useEffect(() => {
-        if(fetching) {
-            console.log("fetching")
-            onRequest(offset, newItemLoading);
-        }
-    },[fetching])
-
-    const scrollHandler = (e) => {
-        if (e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight) < 500) {
-            setFetching(true);
-        }
-        console.log(fetching)
-        console.log("scrollHeight", e.target.documentElement.scrollHeight);
-        console.log("scrollTop", e.target.documentElement.scrollTop);
-        console.log("innerHeight", window.innerHeight);
-    }
-
-    const onRequest = (offset, initial) => {
-        initial ? setNewItemLoading(false) : setNewItemLoading(true);
+    const onRequest = (offset) => {
+        console.log("req")
         getAllCharacters(offset)
             .then(onCharListLoaded)
         
     }
 
     const onCharListLoaded = (newCharList) => {
-        let ended = false;
+        console.log(newCharList)
+        let notOver = true;
         if (newCharList.length < 9) {
-            ended = true
+            notOver = false
         }
 
         setCharList(charList => [...charList, ...newCharList]);
-        setNewItemLoading(false);
         setOffset(offset => offset + 9);
-        setCharEnded(ended);
-        setFetching(false);
+        setCharEnded(notOver);
     }
 
     const itemRefs = useRef([]);
@@ -108,24 +86,27 @@ const CharList = (props) => {
     }
 
     const items = renderItems(charList);
-    const spinner = loading && !newItemLoading ? <Spinner/> : null;
     const errorMessage = error ? <ErrorMessage/> : null;
 
     return (
-            // <CSSTransition in={pageLoaded} timeout={1000} classNames="char__list">
-                <div className="char__list">
-                    {spinner}
-                    {errorMessage}
-                    {items}
-                    <button
-                        className="button button__main button__long"
-                        disabled={newItemLoading}
-                        onClick={() => onRequest(offset)}
-                        style={{'display': charEnded ? 'none' : 'block'}}>
-                        <div className="inner">load more</div>
-                    </button>
-                </div>
-            // </CSSTransition>
+               <InfiniteScroll
+                    dataLength={charList.length}
+                    next={() => onRequest(offset)}
+                    hasMore={charEnded}
+                    style={{overflow:'none'}}
+                    loader={<Spinner/>}>
+                     <div className="char__list">
+                        {errorMessage}
+                        {items}
+                        {/* <button
+                            className="button button__main button__long"
+                            disabled={newItemLoading}
+                            onClick={() => onRequest(offset)}
+                            style={{'display': charEnded ? 'none' : 'block'}}>
+                            <div className="inner">load more</div>
+                        </button> */}
+                    </div>
+               </InfiniteScroll>
     )
     }
 // char__item_selected

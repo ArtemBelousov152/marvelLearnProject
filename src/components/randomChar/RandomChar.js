@@ -62,7 +62,7 @@ const RandomChar = () => {
     )
 }
 
-const View = ({char, charLoaded}) => {
+const View = ({char}) => {
     const {name, description, thumbnail, homepage, wiki, style} = char
     return (
                 <div className="randomchar__block">

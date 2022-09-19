@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useState, useEffect, createContext, Provider } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import AppHeader from "../appHeader/AppHeader";
@@ -7,9 +7,18 @@ import { MainPage, ComicsPage, SinglePageModel, SingleComicPage, SingleCharPage 
 
 const Page404 = lazy(() => import('../pages/404'));
 
+const PageLoaded = createContext();
+
 const App = () => {
 
-        return (
+    const [pageLoaded, setPageLoaded] = useState(false);
+
+    useEffect(() => {
+        setPageLoaded(true);
+    },[])
+
+    return (
+        <PageLoaded.Provider value={pageLoaded}>
             <Router>
                 <div className="app">
                 <AppHeader/>
@@ -30,7 +39,9 @@ const App = () => {
                 </main>
                 </div>
             </Router>
-        )
+        </PageLoaded.Provider>
+    )
     }
 
 export default App;
+export {PageLoaded};

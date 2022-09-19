@@ -1,6 +1,7 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useContext} from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types'
+import { CSSTransition } from 'react-transition-group';
 
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
@@ -12,23 +13,29 @@ import './charInfo.scss';
 const CharInfo = (props) => {
 
     const [char, setChar] = useState(null);
+    const [pageLoaded, setPageLoaded] = useState(false);
 
-    const {loading, error, getCharacter, getComic} = useMarvelService();
+    const {loading, error, getCharacter} = useMarvelService();
+
+    
 
     useEffect(() => {
         updateChar();
     }, [props.charId])
 
     const updateChar = () => {
-
         const {charId} = props;
-
+        setPageLoaded(false);
         if(!charId) {
+            setPageLoaded(true);
             return;
         }
 
         getCharacter(charId)
-            .then(setChar)
+            .then((data) => {
+                setChar(data)
+                setPageLoaded(true)
+                })
     }
     const skeleton = char || loading || error ? null : <Skeleton/>;
     const errorMessage = error ? <ErrorMessage/> : null;
@@ -36,12 +43,14 @@ const CharInfo = (props) => {
     const content = !loading && !error && char ? <View char={char}/> : null;
 
     return (
-        <div className="char__info">
-            {skeleton}
-            {errorMessage}
-            {spinner}
-            {content}
-        </div>
+        <CSSTransition in={pageLoaded} classNames="char__info" timeout={500}>
+            <div className="char__info">
+                {skeleton}
+                {errorMessage}
+                {spinner}
+                {content}
+            </div>
+        </CSSTransition>
     )
 }
 

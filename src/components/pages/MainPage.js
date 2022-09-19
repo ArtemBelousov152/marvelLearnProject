@@ -19,31 +19,31 @@ const MainPage = () => {
 
     return (
         <>
-        <Helmet>
-            <meta
-                name="description"
-                content="Marvel information portal"
-            />
-            <title>Marvel portal</title>
-        </Helmet>
-        <ErrorBoundary>
-            <RandomChar/>
-        </ErrorBoundary>
-        <div className="char__content">
+            <Helmet>
+                <meta
+                    name="description"
+                    content="Marvel information portal"
+                />
+                <title>Marvel portal</title>
+            </Helmet>
             <ErrorBoundary>
-                <CharList onCharSelected={onCharSelected}/>
+                <RandomChar/>
             </ErrorBoundary>
-            <div className="char__info-wrapper">
+            <div className="char__content">
                 <ErrorBoundary>
-                    <CharInfo charId={selectedChar}/>
+                    <CharList onCharSelected={onCharSelected}/>
                 </ErrorBoundary>
-                <ErrorBoundary>
-                    <CharFinder/>
-                </ErrorBoundary>
+                <div className="char__info-wrapper">
+                    <ErrorBoundary>
+                        <CharInfo charId={selectedChar}/>
+                    </ErrorBoundary>
+                    <ErrorBoundary>
+                        <CharFinder/>
+                    </ErrorBoundary>
+                </div>
+                
             </div>
-            
-        </div>
-        <img className="bg-decoration" src={decoration} alt="vision"/>
+            <img className="bg-decoration" src={decoration} alt="vision"/>
         </>
     )
 }
