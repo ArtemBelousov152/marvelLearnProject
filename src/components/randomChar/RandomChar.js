@@ -1,22 +1,24 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useContext} from 'react';
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import useMarvelService from '../../services/MarvelService';
 import { CSSTransition } from 'react-transition-group';
 
-import './randomChar.scss';
 import mjolnir from '../../resources/img/mjolnir.png';
+import pageLoaded from '../../context/context';
+
+import './randomChar.scss';
 
 const RandomChar = () => {
 
     const [char, setChar] = useState({});
     const {loading, error, getCharacter} = useMarvelService();
     const [charLoaded, setCharLoaded] = useState(false);
-    const [pageLoaded, setPageLoaded] = useState(false);
+
+    const context = useContext(pageLoaded);
 
     useEffect(() => {
         updateChar();
-        setPageLoaded(true);
     }, [])
 
     const onCharLoaded = (char) => {
@@ -37,7 +39,7 @@ const RandomChar = () => {
     const spinner = loading ? <Spinner/> : <View char={char} charLoaded={charLoaded}/>;
 
     return (
-        <CSSTransition in={pageLoaded} timeout={1000} classNames="randomchar">
+        <CSSTransition in={context} timeout={1000} classNames="randomchar">
             <div className="randomchar">
                 <CSSTransition in={charLoaded} timeout={500} classNames="randomchar__block">
                     {errorMessage || spinner}

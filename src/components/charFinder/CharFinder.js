@@ -5,7 +5,7 @@ import * as Yup from 'yup'
 import useMarvelService from '../../services/MarvelService';
 import { CSSTransition } from 'react-transition-group';
 
-import { PageLoaded } from '../app/App'
+import pageLoaded  from '../../context/context'
 
 import './charFinder.scss'
 
@@ -15,7 +15,7 @@ const CharFinder = () => {
     const [prevCharName, setPrevCharName] = useState();
     const {loading, error, findChar} = useMarvelService();
 
-    const context = useContext(PageLoaded);
+    const context = useContext(pageLoaded);
 
     const getChar = (name) => {
         if(prevCharName !== name) {

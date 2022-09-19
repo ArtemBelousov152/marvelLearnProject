@@ -8,16 +8,16 @@ import ErrorMessage from '../errorMessage/ErrorMessage';
 import Skeleton from '../skeleton/Skeleton';
 
 import useMarvelService from '../../services/MarvelService';
+import pageLoaded from '../../context/context';
 import './charInfo.scss';
 
 const CharInfo = (props) => {
 
     const [char, setChar] = useState(null);
-    const [pageLoaded, setPageLoaded] = useState(false);
 
     const {loading, error, getCharacter} = useMarvelService();
 
-    
+    const context = useContext(pageLoaded)
 
     useEffect(() => {
         updateChar();
@@ -25,16 +25,14 @@ const CharInfo = (props) => {
 
     const updateChar = () => {
         const {charId} = props;
-        setPageLoaded(false);
+
         if(!charId) {
-            setPageLoaded(true);
             return;
         }
 
         getCharacter(charId)
             .then((data) => {
                 setChar(data)
-                setPageLoaded(true)
                 })
     }
     const skeleton = char || loading || error ? null : <Skeleton/>;
@@ -43,7 +41,7 @@ const CharInfo = (props) => {
     const content = !loading && !error && char ? <View char={char}/> : null;
 
     return (
-        <CSSTransition in={pageLoaded} classNames="char__info" timeout={500}>
+        <CSSTransition in={context} classNames="char__info" timeout={500}>
             <div className="char__info">
                 {skeleton}
                 {errorMessage}
