@@ -3,6 +3,7 @@ import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import useMarvelService from '../../services/MarvelService';
 import { CSSTransition } from 'react-transition-group';
+import { Link } from 'react-router-dom';
 
 import mjolnir from '../../resources/img/mjolnir.png';
 import pageLoaded from '../../context/context';
@@ -65,14 +66,16 @@ const RandomChar = () => {
 }
 
 const View = ({char}) => {
-    const {name, description, thumbnail, homepage, wiki, style} = char
+    const {name, description, thumbnail, homepage, wiki, style, id} = char
     return (
                 <div className="randomchar__block">
-                    <img 
-                        src={thumbnail}
-                        alt="Random character"
-                        tabIndex={0} 
-                        className="randomchar__img" style={style}/>
+                    <Link to={`/char/${id}`}>
+                        <img 
+                            src={thumbnail}
+                            alt="Random character"
+                            tabIndex={0} 
+                            className="randomchar__img" style={style}/>
+                    </Link>
                     <div className="randomchar__info">
                         <p className="randomchar__name">{name}</p>
                         <p className="randomchar__descr">
