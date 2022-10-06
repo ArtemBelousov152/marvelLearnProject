@@ -22,14 +22,11 @@ const CharList = (props) => {
     },[])
 
     const onRequest = (offset) => {
-        console.log("req")
         getAllCharacters(offset)
-            .then(onCharListLoaded)
-        
+            .then(onCharListLoaded) 
     }
 
     const onCharListLoaded = (newCharList) => {
-        console.log(newCharList)
         let notOver = true;
         if (newCharList.length < 9) {
             notOver = false
@@ -41,7 +38,6 @@ const CharList = (props) => {
     }
 
     const itemRefs = useRef([]);
-
     const focusOnItem = (id) => {
         
         itemRefs.current.forEach(item => {
@@ -94,7 +90,8 @@ const CharList = (props) => {
                     next={() => onRequest(offset)}
                     hasMore={charEnded}
                     style={{overflow:'none'}}
-                    loader={<Spinner/>}>
+                    loader={<Spinner/>}
+                    scrollThreshold={0.9}>
                      <div className="char__list">
                         {errorMessage}
                         {items}

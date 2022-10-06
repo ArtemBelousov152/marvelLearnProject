@@ -3,10 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types'
 import { CSSTransition } from 'react-transition-group';
 
-import Spinner from '../spinner/Spinner';
-import ErrorMessage from '../errorMessage/ErrorMessage';
-import Skeleton from '../skeleton/Skeleton';
-
+import setContent from '../../utils/setContent';
 import useMarvelService from '../../services/MarvelService';
 import pageLoaded from '../../context/context';
 import './charInfo.scss';
@@ -15,7 +12,7 @@ const CharInfo = (props) => {
 
     const [char, setChar] = useState(null);
 
-    const {loading, error, getCharacter} = useMarvelService();
+    const {getCharacter, process, setProcess} = useMarvelService();
 
     const context = useContext(pageLoaded)
 
@@ -34,19 +31,13 @@ const CharInfo = (props) => {
             .then((data) => {
                 setChar(data)
                 })
+            .then(() => setProcess('confirmed'))
     }
-    const skeleton = char || loading || error ? null : <Skeleton/>;
-    const errorMessage = error ? <ErrorMessage/> : null;
-    const spinner = loading ? <Spinner/> : null;
-    const content = !loading && !error && char ? <View char={char}/> : null;
 
     return (
         <CSSTransition in={context} classNames="char__info" timeout={500}>
             <div className="char__info">
-                {skeleton}
-                {errorMessage}
-                {spinner}
-                {content}
+                {setContent(process, View, char)}
             </div>
         </CSSTransition>
     )
@@ -54,8 +45,8 @@ const CharInfo = (props) => {
 
 
 
-const View = ({char}) => {
-    const {name, description, thumbnail, homepage, wiki, comics, style} = char;
+const View = ({data}) => {
+    const {name, description, thumbnail, homepage, wiki, comics, style} = data;
     let comicsList = null
         if(comics.length === 0) {
         comicsList =  <li key={0} className="char__comics-item">

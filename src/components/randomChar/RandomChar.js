@@ -1,19 +1,18 @@
 import {useState, useEffect, useContext} from 'react';
-import Spinner from '../spinner/Spinner';
-import ErrorMessage from '../errorMessage/ErrorMessage';
-import useMarvelService from '../../services/MarvelService';
 import { CSSTransition } from 'react-transition-group';
 import { Link } from 'react-router-dom';
 
 import mjolnir from '../../resources/img/mjolnir.png';
 import pageLoaded from '../../context/context';
+import useMarvelService from '../../services/MarvelService';
+import setContent from '../../utils/setContent';
 
 import './randomChar.scss';
 
 const RandomChar = () => {
 
     const [char, setChar] = useState({});
-    const {loading, error, getCharacter} = useMarvelService();
+    const {getCharacter, process, setProcess} = useMarvelService();
     const [charLoaded, setCharLoaded] = useState(false);
 
     const context = useContext(pageLoaded);
@@ -33,17 +32,15 @@ const RandomChar = () => {
 
         getCharacter(id)
             .then(onCharLoaded)
+            .then(() => setProcess('confirmed'))
         ;
     }
-
-    const errorMessage = error ? <ErrorMessage/> : null;
-    const spinner = loading ? <Spinner/> : <View char={char} charLoaded={charLoaded}/>;
 
     return (
         <CSSTransition in={context} timeout={1000} classNames="randomchar">
             <div className="randomchar">
                 <CSSTransition in={charLoaded} timeout={500} classNames="randomchar__block">
-                    {errorMessage || spinner}
+                    {setContent(process, View, char)}
                 </CSSTransition>
                 
                 <div className="randomchar__static">
@@ -65,8 +62,8 @@ const RandomChar = () => {
     )
 }
 
-const View = ({char}) => {
-    const {name, description, thumbnail, homepage, wiki, style, id} = char
+const View = ({data}) => {
+    const {name, description, thumbnail, homepage, wiki, style, id} = data
     return (
                 <div className="randomchar__block">
                     <Link to={`/char/${id}`}>

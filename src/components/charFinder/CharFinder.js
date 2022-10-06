@@ -26,7 +26,6 @@ const CharFinder = () => {
         }
         
     }
-    console.log(context)
     const visitPage = "name" in char ? <VisitPage name="name" id={char.id}/> : null;
     const errorMessage = error ? <div className='error'>{"The character was not found. Check the name and try again"}</div> : null
 
