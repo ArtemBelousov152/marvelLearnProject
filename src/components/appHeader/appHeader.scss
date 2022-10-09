@@ -29,3 +29,12 @@
         }
     }
 }
+
+@media (max-width: 1200px) {
+    .app {
+        width: 992px;
+        &__header {
+            justify-content: space-around;
+        }
+    }
+}

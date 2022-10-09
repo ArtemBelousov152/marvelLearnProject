@@ -5,7 +5,8 @@ import * as Yup from 'yup'
 import useMarvelService from '../../services/MarvelService';
 import { CSSTransition } from 'react-transition-group';
 
-import pageLoaded  from '../../context/context'
+import {pageLoaded} from '../../context/context'
+import {visibleInfo} from '../../context/context'
 
 import './charFinder.scss'
 
@@ -16,6 +17,7 @@ const CharFinder = () => {
     const {loading, error, findChar} = useMarvelService();
 
     const context = useContext(pageLoaded);
+    const {infoActive} = useContext(visibleInfo)
 
     const getChar = (name) => {
         if(prevCharName !== name) {
@@ -30,7 +32,7 @@ const CharFinder = () => {
     const errorMessage = error ? <div className='error'>{"The character was not found. Check the name and try again"}</div> : null
 
     return(
-        <CSSTransition timeout={500} classNames="char__finder" in={context}>
+        <CSSTransition timeout={500} classNames="char__finder" in={document.documentElement.clientWidth > 992 ? context : infoActive}>
             <div className="char__finder">
                 <h2 className="char__finder-title">
                     Or find a character by name:

@@ -1,6 +1,11 @@
 @import '../../style/variables.scss';
 
 .char {
+    &__close {
+        transform: scale(2);
+        position: absolute;
+        right: 31px;
+    }
     &__info {
         padding: 25px;
         margin-bottom: 30px;
@@ -85,4 +90,35 @@
         text-align: center;
     }
 
+}
+
+.hidden {
+    display: none;
+}
+
+.active, .show {
+    display: block;
+}
+
+
+@media (max-width: 1200px) {
+    .char {
+        &__comics {
+            &-item {
+                font-size: 17px;
+            }
+        }
+    }
+}
+
+@media (max-width: 992px) {
+    .char {
+        &__info {
+            &-wrapper {
+                position: fixed;
+                top: 10%;
+                order: 0;
+            }
+        }
+    }
 }

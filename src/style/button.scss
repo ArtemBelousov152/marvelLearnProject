@@ -92,3 +92,12 @@
         filter:grayscale(.7)
     }
 }
+
+@media (max-width: 1200px) {
+    .button {
+        font-size: 13px;
+    }
+    .randomchar__btns a:nth-child(1) {
+        margin-right: 15px;
+    }
+}

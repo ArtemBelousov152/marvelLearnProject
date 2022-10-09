@@ -1,5 +1,5 @@
 import { createContext } from "react";
 
-const pageLoaded = createContext();
+export const pageLoaded = createContext();
 
-export default pageLoaded;
+export const visibleInfo = createContext();

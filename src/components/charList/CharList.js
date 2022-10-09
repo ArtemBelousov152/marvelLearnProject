@@ -60,8 +60,10 @@ const CharList = (props) => {
                         ref={el => itemRefs.current[i] = el}
                         onFocus={() => {
                             props.onCharSelected(id)
+                            props.onToggleActive()
                             focusOnItem(i)
-                        }}>
+                        }}
+                        style={{pointerEvents: props.infoActive ? "none" : "auto"}}>
                         <img 
                             src={thumbnail}
                             alt="thumbnail"

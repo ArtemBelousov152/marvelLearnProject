@@ -1,11 +1,12 @@
-import {useState, useEffect, useContext} from 'react';
+import {useState, useEffect, useContext, useMemo} from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types'
 import { CSSTransition } from 'react-transition-group';
 
 import setContent from '../../utils/setContent';
 import useMarvelService from '../../services/MarvelService';
-import pageLoaded from '../../context/context';
+import {pageLoaded} from '../../context/context';
+import {visibleInfo} from '../../context/context'
 import './charInfo.scss';
 
 const CharInfo = (props) => {
@@ -15,6 +16,7 @@ const CharInfo = (props) => {
     const {getCharacter, process, setProcess} = useMarvelService();
 
     const context = useContext(pageLoaded)
+    const contextVisibleInfo = useContext(visibleInfo)
 
     useEffect(() => {
         updateChar();
@@ -35,7 +37,7 @@ const CharInfo = (props) => {
     }
 
     return (
-        <CSSTransition in={context} classNames="char__info" timeout={500}>
+        <CSSTransition in={document.documentElement.clientWidth > 992 ? context : contextVisibleInfo.infoActive} classNames="char__info" timeout={500}>
             <div className="char__info">
                 {setContent(process, View, char)}
             </div>
@@ -46,6 +48,9 @@ const CharInfo = (props) => {
 
 
 const View = ({data}) => {
+    
+    const contextVisibleInfo = useContext(visibleInfo)
+
     const {name, description, thumbnail, homepage, wiki, comics, style} = data;
     let comicsList = null
         if(comics.length === 0) {
@@ -68,6 +73,9 @@ const View = ({data}) => {
             <div className="char__basics">
                 <img src={thumbnail} alt={name} style={style}/>
                 <div>
+                    <div 
+                        className="char__close"
+                        onClick={contextVisibleInfo.onToggleActive}>&#10006;</div>
                     <div className="char__info-name">{name}</div>
                     <div className="char__btns">
                         <a href={homepage} className="button button__main">

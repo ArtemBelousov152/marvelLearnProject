@@ -4,22 +4,22 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import AppHeader from "../appHeader/AppHeader";
 import Spinner from "../spinner/Spinner";
 import { MainPage, ComicsPage, SinglePageModel, SingleComicPage, SingleCharPage } from "../pages";
-import context from "../../context/context"
+import {pageLoaded} from "../../context/context"
 
 const Page404 = lazy(() => import('../pages/404'));
 
-const {Provider} = context;
+const {Provider} = pageLoaded;
 
 const App = () => {
 
-    const [pageLoaded, setPageLoaded] = useState(false);
+    const [pageLoad, setPageLoaded] = useState(false);
 
     useEffect(() => {
         setPageLoaded(true);
     },[])
 
     return (
-        <Provider value={pageLoaded}>
+        <Provider value={pageLoad}>
             <Router>
                 <div className="app">
                 <AppHeader/>

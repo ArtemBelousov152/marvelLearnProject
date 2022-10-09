@@ -3,7 +3,7 @@ import { CSSTransition } from 'react-transition-group';
 import { Link } from 'react-router-dom';
 
 import mjolnir from '../../resources/img/mjolnir.png';
-import pageLoaded from '../../context/context';
+import {pageLoaded} from '../../context/context';
 import useMarvelService from '../../services/MarvelService';
 import setContent from '../../utils/setContent';
 

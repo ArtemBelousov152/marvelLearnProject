@@ -59,3 +59,33 @@
         color: #fff;
     }
 }
+
+
+@media (max-width: 1200px) {
+    .char {
+        &__content {
+            justify-items: center;
+        }
+        &__grid {
+            grid-template-columns: repeat(2, 200px);
+        }
+        &__content {
+            grid-template-columns: 450px 425px;
+        }
+    }
+}
+
+@media (max-width: 992px) {
+    .infinite-scroll-component__outerdiv {
+        order: 1;
+        position: absolute;
+    }
+    .char {
+        &__content {
+            grid-template-columns: 729px;
+        }
+        &__grid {
+            grid-template-columns: repeat(3, 200px);
+        }
+    }
+}
