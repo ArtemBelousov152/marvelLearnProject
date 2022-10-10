@@ -89,3 +89,23 @@
         }
     }
 }
+
+@media (max-width: 768px) {
+    .char {
+        &__grid {
+            grid-template-columns: repeat(2, 200px);
+            column-gap: 60px;
+        }
+        &__content {
+            margin-top: 35px;
+        }
+    }
+}
+
+@media (max-width:576px) {
+    .char {
+        &__grid {
+            grid-template-columns: 200px;
+        }
+    }
+}

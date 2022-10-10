@@ -116,8 +116,35 @@
         &__info {
             &-wrapper {
                 position: fixed;
-                top: 10%;
+                top: 1%;
                 order: 0;
+            }
+        }
+    }
+}
+
+@media (max-width: 576px) {
+    .char {
+        &__basics {
+            grid-template-columns: 121px 152px;
+            column-gap: 5px;
+            img {
+                width: 120px;
+                height: 120px;
+            }
+        }
+        &__btns {
+            margin-top: 14px;
+            display: flex;
+            flex-direction: column;
+        }
+        &__close {
+            right: 12px;
+        }
+        &__info {
+            padding: 8px;
+            &-wrapper {
+                width: 320px;
             }
         }
     }

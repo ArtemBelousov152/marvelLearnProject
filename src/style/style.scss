@@ -95,3 +95,20 @@ main {
         width: 730px;
     }
 }
+
+@media (max-width: 768px) {
+    .app {
+        width: 540px;
+        padding-top: 25px;
+    }
+    main {
+        margin-top: 25px;
+    }
+}
+
+@media (max-width: 576px) {
+    .app {
+        width: 320px;
+        padding-top: 20px;
+    }
+}

@@ -38,3 +38,27 @@
         }
     }
 }
+
+@media (max-width: 768px) {
+    .app {
+        &__title {
+            line-height: 30px;
+            font-size: 25px;
+        }
+        &__menu {
+            ul {
+                font-size: 22px;
+            }
+        }
+    }
+}
+
+@media (max-width: 576px) {
+    .app {
+        &__title {
+            line-height: 26px;
+            font-size: 20px;
+            margin-left: 8px;
+        }
+    }
+}

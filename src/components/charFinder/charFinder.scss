@@ -63,3 +63,9 @@
     line-height: 21px;
     color: #03710E;
 }
+
+@media (max-width: 768px) {
+    .char__finder {
+        display: none;
+    }
+}

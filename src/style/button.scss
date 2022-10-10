@@ -101,3 +101,17 @@
         margin-right: 15px;
     }
 }
+
+@media (max-width: 768px) {
+    .button {
+        &:hover {
+            transform: none;
+        }
+    }
+}
+
+@media (max-width: 576px) {
+    .randomchar__btns a:nth-child(1) {
+        margin-right: 0;
+    }
+}
