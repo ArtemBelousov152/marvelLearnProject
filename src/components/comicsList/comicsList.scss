@@ -51,3 +51,50 @@
         }
     }
 }
+
+@media (max-width: 1200px) {
+    .comics {
+        &__grid {
+            grid-template-columns: repeat(3, 225px);
+        }
+    }
+}
+
+@media (max-width: 992px) {
+    .comics {
+        &__grid {
+            grid-template-columns: repeat(2, 1fr);
+            column-gap: 145px;
+            align-items: center;
+            justify-items: center;
+        }
+        &__item {
+            a {
+                text-align: center;
+            }
+            &-img {
+                display: block;
+                margin: 0 auto;
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .comics {
+        &__grid {
+            column-gap: 94px
+        }
+    }
+}
+
+@media (max-width: 576px) {
+    .comics {
+        &__list {
+            width: 320px;
+        }
+        &__grid {
+            grid-template-columns: 1fr;
+        }
+    }
+}

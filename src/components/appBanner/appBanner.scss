@@ -18,3 +18,9 @@
         }
     }
 }
+
+@media (max-width: 992px) {
+    .app__banner {
+        display: none;
+    }
+}

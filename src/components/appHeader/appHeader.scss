@@ -55,10 +55,20 @@
 
 @media (max-width: 576px) {
     .app {
+        &__header {
+            display: grid;
+            grid-template-columns: 100px 100px;
+        }
         &__title {
-            line-height: 26px;
-            font-size: 20px;
+            line-height: 31px;
+            font-size: 24px;
             margin-left: 8px;
+        }
+        &__menu {
+            ul {
+                flex-direction: column;
+                align-items: center;
+            }
         }
     }
 }
